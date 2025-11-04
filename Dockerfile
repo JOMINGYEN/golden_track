@@ -1,6 +1,32 @@
 # 🧱 Base image: PHP 8.2 + Apache (ổn định, nhẹ)
 FROM php:8.2-apache
 
+<<<<<<< HEAD
+# Cài đặt dependencies
+RUN apt-get update && apt-get install -y \
+    git zip unzip libpng-dev libonig-dev libxml2-dev libzip-dev \
+    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
+
+# Copy composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Giảm warning
+RUN echo "error_reporting = E_ALL & ~E_DEPRECATED & ~E_NOTICE" > /usr/local/etc/php/conf.d/error.ini
+
+# Copy source
+WORKDIR /var/www/html
+COPY . .
+
+# Set quyền
+RUN chmod -R 777 storage bootstrap/cache
+
+# ❗ Chặn artisan chạy tự động bằng cách disable scripts
+RUN composer install --no-dev --optimize-autoloader --no-scripts
+
+# Sau khi install xong mới chạy thủ công package discovery
+RUN php artisan key:generate || true
+RUN php artisan package:discover || true
+=======
 # 👇 Tắt warning PHP (cho sạch log)
 RUN echo "error_reporting = E_ALL & ~E_DEPRECATED & ~E_NOTICE" > /usr/local/etc/php/conf.d/error.ini
 
@@ -19,6 +45,7 @@ COPY . .
 
 # ⚡ Fix quyền truy cập cho Laravel (storage, cache)
 RUN chmod -R 777 storage bootstrap/cache || true
+>>>>>>> 657fa01 (Optimized Dockerfile for Render)
 
 # ⚙️ Giới hạn composer, tránh tắt do thiếu RAM
 ENV COMPOSER_MEMORY_LIMIT=-1
