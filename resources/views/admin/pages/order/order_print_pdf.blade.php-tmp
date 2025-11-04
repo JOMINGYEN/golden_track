@@ -1,0 +1,242 @@
+
+Deprecated: The each() function is deprecated. This message will be suppressed on further calls in C:\Users\THIEN\AppData\Roaming\Sublime Text 3\Packages\PHPTools\php.tools\codeFormatter.php on line 54
+@extends('admin.index_layout_admin')
+@section('content')
+<div class="content-page">
+    <div class="content">
+        <!-- Start Content-->
+        <div class="container-fluid">
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box">
+                        <div class="page-title-right">
+                            <div class="text-lg-right mt-3 mt-lg-0">
+                                <a href="{{URL::to('/order-show-detail/'.$order->id)}}" class="btn btn-success waves-effect waves-light"><i class="ti-arrow-left mr-1"></i>Quay Lại</a>
+                                <a href="{{URL::to('/order-add')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i>Tạo Mới Đơn Hàng</a>
+                            </div>
+                        </div>
+                        <ol class="breadcrumb page-title">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">SHOES</a></li>
+                            <li class="breadcrumb-item active">In Đơn Hàng</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <!-- content -->
+            <div class="row">
+                    <div class="col-12">
+                        <div class="card-box">
+                            <!-- Logo & title -->
+                            <div class="clearfix">
+                                <div class="float-left">
+                                    <img src="{{asset('public/backend/images/logo-dark.png')}}" alt="" height="20">
+                                </div>
+                                <div class="float-right">
+                                    <h4 class="m-0 d-print-none">Hóa Đơn</h4>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mt-3">
+                                        <p><b>Xin Chào,
+                                            @if($order_customer)
+                                                {{ $order_customer->Customer->khachhang_ten}}
+
+                                            @else
+                                                {{ $order_delivery->giaohang_nguoi_nhan}}
+                                            @endif
+                                        </b></p>
+                                        <p class="text-muted">Cảm ơn rất nhiều vì bạn đã mua sản phẩm của chúng tôi. Cửa hàng chúng tôi
+                                            sẽ cung cấp cho bạn những sản phẩm chính hãng, chất lượng. </p>
+                                    </div>
+
+                                </div><!-- end col -->
+                                <div class="col-md-4 offset-md-2">
+                                    <div class="mt-3 float-right">
+                                        <p class="m-b-10"><strong>Ngày Đặt Hàng : </strong> <span class="float-right"> &nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+{{ $order->dondathang_ngay_dat_hang }}</span></p>
+                                        <p class="m-b-10"><strong>Trạng Thái :&nbsp; </strong> <span class="float-right">
+                                            @if($order->dondathang_trang_thai == 0)
+                                            Chưa xác nhận
+                                            @elseif($order->dondathang_trang_thai == 1)
+                                            Đã xác nhận
+                                            @elseif($order->dondathang_trang_thai == 2)
+                                            Đang vận chuyển
+                                            @elseif($order->dondathang_trang_thai == 3)
+                                            Đã giao hàng
+                                            @elseif($order->dondathang_trang_thai == 4)
+                                            Đơn hàng đã bị hủy
+                                            @endif
+                                        </span></p>
+                                        <p class="m-b-10"><strong>Mã Đơn Hàng. : </strong> <span class="float-right">{{ $order->dondathang_ma_don_dat_hang }}</span></p>
+                                    </div>
+                                </div><!-- end col -->
+                            </div>
+                            <!-- end row -->
+
+                            <div class="row mt-3">
+                                <div class="col-sm-6">
+                                    <h5>Địa Chỉ Mua Hàng</h5>
+                                    <address>
+                                            @if($order_customer)
+                                                {{ $order_customer->Customer->khachhang_ten}}
+                                                <br>
+                                                {{ $order_customer->Customer->khachhang_dia_chi}}<br>
+                                                <abbr title="Phone">P:</abbr> {{ $order_customer->Customer->khachhang_so_dien_thoai}}
+                                                @else
+                                                {{ $order_delivery->giaohang_nguoi_nhan}}
+                                                <br>
+                                                {{ $order_delivery->giaohang_nguoi_nhan_dia_chi}}
+                                                <br>
+                                                <abbr title="Phone">(84):</abbr> {{ $order_delivery->giaohang_nguoi_nhan_so_dien_thoai}}
+                                            @endif
+                                    </address>
+                                </div> <!-- end col -->
+
+                                <div class="col-sm-6">
+                                    <h5>Địa Chỉ Nhận Hàng</h5>
+                                    <address>
+                                        @if(!$order_delivery)
+                                            {{ $order_customer->Customer->khachhang_ten}}
+                                            <br>
+                                            {{ $order_customer->Customer->khachhang_dia_chi}}<br>
+                                            <abbr title="Phone">(84):</abbr> {{ $order_customer->Customer->khachhang_so_dien_thoai}}
+                                        @else
+                                            {{ $order_delivery->giaohang_nguoi_nhan}}
+                                            <br>
+                                            {{ $order_delivery->giaohang_nguoi_nhan_dia_chi}}
+                                            <br>
+                                            <abbr title="Phone">(84):</abbr> {{ $order_delivery->giaohang_nguoi_nhan_so_dien_thoai}}
+                                    @endif
+                                    </address>
+                                </div> <!-- end col -->
+                            </div>
+                            <!-- end row -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="table-responsive">
+                                        <table class="table mt-4 table-centered">
+                                            <thead>
+                                            <tr>
+                                                <th>Sản Phẩm</th>
+                                                <th style="width: 20%">Giá</th>
+                                                <th style="width: 20%">Số Lượng</th>
+                                                <th style="width: 20%" class="text-right">Tổng Cộng</th>
+                                            </tr></thead>
+                                            <tbody>
+                                                @foreach ($order_detail as $key =>$value )
+                                                    @foreach ($product as $k =>$pro)
+                                                        <tr>
+                                                            <td>
+                                                                <b>{{ $value->Product->sanpham_ten}} - Size: {{ $value->Size->size}}</b> <br>
+                                                                {{ $pro->sanpham_mo_ta}}
+                                                            </td>
+                                                            <td>{{number_format($value->chitietdondathang_don_gia ).' VNĐ' }}</td>
+                                                            <td>{{ $value->chitietdondathang_so_luong}}</td>
+                                                            <td class="text-right">{{number_format($value->chitietdondathang_don_gia * $value->chitietdondathang_so_luong).' VNĐ' }}</td>
+                                                        </tr>
+                                                        @break
+                                                    @endforeach
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div> <!-- end table-responsive -->
+                                </div> <!-- end col -->
+                            </div>
+                            <!-- end row -->
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="clearfix pt-5">
+                                        <h6 class="text-muted">Ghi Chú:</h6>
+                                        <span class="text-muted">
+                                           {{ $order->dondathang_ghi_chu }}
+                                        </span>
+                                    </div>
+                                </div> <!-- end col -->
+                                <div class="col-sm-6">
+                                    <div class="float-right">
+                                        <p>
+                                            <b>Tổng :</b>&nbsp;
+&nbsp;
+&nbsp;
+                                                @if($order_coupon)
+                                                    @if($order_coupon->makhuyenmai_loai_ma==1)//theo $
+                                                    {{number_format($order->dondathang_tong_tien - $order->dondathang_phi_van_chuyen + $order->Coupon->makhuyenmai_gia_tri ).' VNĐ' }}
+                                                    @else
+                                                        @php
+                                                        $old_total=$order->dondathang_tong_tien - $order->dondathang_phi_van_chuyen;
+                                                        $percent=100-$order->Coupon->makhuyenmai_gia_tri ;
+                                                        @endphp
+                                                    {{number_format($old_total +(($old_total*$order->Coupon->makhuyenmai_gia_tri)/$percent)).' VNĐ' }}
+                                                    @endif
+                                                @else
+                                                {{number_format($order->dondathang_tong_tien - $order->dondathang_phi_van_chuyen + $order->dondathang_giam_gia).' VNĐ' }}
+                                                @endif
+
+                                        </p>
+                                        <p><b>Phí Vận Chuyển:</b> <span class="float-right">&nbsp;
+&nbsp;
+&nbsp;
+{{number_format($order->dondathang_phi_van_chuyen ).' VNĐ' }}</span></p>
+                                        <p>
+                                            <b>Giảm Giá:</b>
+                                            <span class="float-right">
+                                                @if($order_coupon)
+                                                    @if($order_coupon->makhuyenmai_loai_ma==1)//theo $
+                                                    {{number_format($order->Coupon->makhuyenmai_gia_tri).' VNĐ' }}
+                                                    @else
+                                                    {{number_format($order->Coupon->makhuyenmai_gia_tri).' %' }}
+                                                    @endif
+                                                @else
+                                                    {{number_format($order->dondathang_giam_gia).' VNĐ' }}
+                                                @endif
+                                            </span>
+                                        </p>
+                                        <p>
+                                            <b>Tổng Cộng: </b>&nbsp;
+&nbsp;
+&nbsp;
+                                            <span class="float-right">
+                                                {{number_format($order->dondathang_tong_tien ).' VNĐ' }}
+                                            </span>
+                                        </p>
+                                        <p>
+                                            <b>Tổng Phải Thanh Toán: </b>&nbsp;
+&nbsp;
+&nbsp;
+                                            <h3 class="total"> {{number_format($order_delivery->giaohang_tong_tien_thanh_toan ).' VNĐ' }}</h3>
+                                        </p>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div> <!-- end col -->
+                            </div>
+                            <!-- end row -->
+
+                            <div class="mt-4 mb-1">
+                                <div class="text-right d-print-none">
+                                    <a href="javascript:window.print()" class="btn btn-primary waves-effect waves-light"><i class="mdi mdi-printer mr-1"></i> In Hóa Đơn </a>
+                                </div>
+                            </div>
+                        </div> <!-- end card-box -->
+                    </div> <!-- end col -->
+                </div>
+                <!-- end row -->
+            <!-- end content -->
+
+            <!-- end page title -->
+        </div>
+        <!-- container -->
+
+    </div>
+    <!-- content -->
+    <!-- Footer Start -->
+    @include('admin.blocks.footer_admin')
+    <!-- end Footer -->
+</div>
+@endsection
